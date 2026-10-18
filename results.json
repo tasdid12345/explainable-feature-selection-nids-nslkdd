@@ -1,0 +1,31 @@
+{
+  "question": "Can an embedded LightGBM-importance feature selection with a class-balanced LightGBM classifier beat a standard mutual-information selection with an MLP for binary intrusion detection on NSL-KDD?",
+  "method": "Official NSL-KDD train/test files. Binary label (normal vs attack). One-hot categoricals and standardised numerics fitted on train only. Baseline: top-K mutual information + MLP. Improved: top-K LightGBM gain importance + class-balanced LightGBM. Fixed hyper-parameters, no tuning. Test set used once. Randomised models run with seeds 42, 43, 44.",
+  "dataset": {
+    "name": "NSL-KDD",
+    "source_url": "https://raw.githubusercontent.com/defcom17/NSL_KDD/master/KDDTrain+.txt ; https://raw.githubusercontent.com/defcom17/NSL_KDD/master/KDDTest+.txt",
+    "n_rows": 148517,
+    "n_train": 125973,
+    "n_test": 22544,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "macro-F1 on the KDDTest+ test split",
+  "higher_is_better": true,
+  "baseline": "Top-20 features by mutual information, then scikit-learn MLPClassifier (hidden layers 64 and 32, early stopping). Stands in for the paper's pipeline.",
+  "improved": "Top-20 features by LightGBM gain importance (fit on train), then a class-balanced LightGBMClassifier with fixed moderate hyper-parameters.",
+  "metrics": {
+    "baseline_score": 0.7550602167461243,
+    "baseline_score_std": 0.003908918063550675,
+    "baseline_accuracy": 0.7554855689614385,
+    "baseline_attack_recall": 0.6273149951946803,
+    "baseline_f1": 0.7449257209311612,
+    "improved_score": 0.7735436338650837,
+    "improved_score_std": 0.00104065375072161,
+    "improved_accuracy": 0.7744558788739058,
+    "improved_attack_recall": 0.6245097275253902,
+    "improved_f1": 0.7591716715218397,
+    "improvement": 0.0184834171189594
+  },
+  "notes": "The test split is the official KDDTest+ file, not a random 20-30% split; it contains attack types and distribution shift absent from training, so scores reflect generalisation to novel attacks. Hyper-parameters were fixed a priori and not tuned, so no cross-validation selection was performed. The MLP has no class weighting. The paper's CircleSA optimiser and FNP-SE network were not reproduced; the baseline is a generic stand-in. Only 3 seeds were run and std is the population std over them. NSL-KDD is an old benchmark."
+}

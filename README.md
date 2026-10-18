@@ -21,6 +21,28 @@ python analysis.py
 
 Results: written to results.json (and figures/macro_f1.png).
 
+## Results (latest run)
+
+On NSL-KDD's official KDDTest+ split, macro-F1 was 0.755 for a standard mutual-information feature selection with an MLP classifier and 0.774 for LightGBM-importance selection with a class-balanced LightGBM, a modest gain of about 0.018 over 3 seeds.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.7551 |
+| baseline_score_std | 0.003909 |
+| baseline_accuracy | 0.7555 |
+| baseline_attack_recall | 0.6273 |
+| baseline_f1 | 0.7449 |
+| improved_score | 0.7735 |
+| improved_score_std | 0.001041 |
+| improved_accuracy | 0.7745 |
+| improved_attack_recall | 0.6245 |
+| improved_f1 | 0.7592 |
+| improvement | 0.01848 |
+
+Run on 2026-10-18. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: The test split is the official KDDTest+ file, not a random 20-30% split; it contains attack types and distribution shift absent from training, so scores reflect generalisation to novel attacks. Hyper-parameters were fixed a priori and not tuned, so no cross-validation selection was performed. The MLP has no class weighting. The paper's CircleSA optimiser and FNP-SE network were not reproduced; the baseline is a generic stand-in. Only 3 seeds were run and std is the population std over them. NSL-KDD is an old benchmark.
+
 ## Reference
 
 This project is motivated by the following paper:
